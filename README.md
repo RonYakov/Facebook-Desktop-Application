@@ -4,21 +4,21 @@ The Facebook app provides users with access to their Facebook profiles and the a
  
 ## Design Patterns Utilized
 1. Singleton
-* Reason for Usage: The Singleton pattern is employed for managing the loginResult variable, ensuring it's created once upon user login and accessed from any part of the application.
-* Method of Realization: Implemented with a double lock mechanism in formMain, allowing thread safety. The GetLoginResult method is used across forms to retrieve the singleton instance.
-2. Observer
-* Reason for Usage: Implemented for notifying users of new posts, ensuring seamless updates across the application.
-* Method of Realization: An interface is implemented by listeners, managed by NewPostSubject. Upon new post publication, the notify method in formPost updates all listeners.
-3. Factory Method
-* Reason for Usage: Facilitates easy addition of new statistics graphs with minimal code changes.
-* Method of Realization: Implemented with an abstract class ChartFactory, obligating subclasses to implement the CreateChart method. ColumnChartFactory defines the specific chart implementation.
-4. Strategy
-* Reason for Usage: Enables flexibility in displaying and sorting posts, facilitating future expansion.
-* Method of Realization: ICompareStrategy is implemented by comparison classes (CompareByLikesCountStrategy and CompareByTimeStrategy). SortStrategy activates bubble sorting based on user-selected comparison.
+* Reason for Usage: The Singleton pattern ensures that there is only one instance of the loggedInUser across multiple forms within the application. This is crucial to maintain a consistent user state.
+* Implementation: Double Check Locking - Used when performing login or accessing the loggedInUser in FormMain. This ensures that no more than one instance of loggedInUser exists at any given time.
+2. Strategy
+* Reason for Usage: The Strategy pattern allows for flexibility in changing the maximum value of graphs in the future without modifying the existing code structure.
+* Implementation: Class Structure - DiagramCreator class contains a composition of PostChartTopValue. The MaxPostChartValue class implements PostChartTopValue to determine the maximum value of the graph.
+3. Observer
+* Reason for Usage: The Observer pattern is implemented to notify multiple components in the system when a user posts a new status, facilitating better communication and updates.
+* Implementation: Event Handling - The postManager class includes a public event that all interested components can subscribe to for updates on new posts.
+4. Facade 
+* Reason for Usage: The Facade pattern simplifies the interaction with the FacebookUser data by presenting only the relevant information to the user in the feed, improving the user experience.
+* Implementation: Facade Class - FormFeedInitializerFacade serves as a facade for FormFeed, providing the necessary data in the expected format.
  
 ## Features
-* Save Photo from Album: Users can save photos from albums by selecting a photo and clicking the "Save Photo" button in FormAlbum. They are prompted to choose the destination path for the image.
-* Album Opened Statistics: Accessible by clicking the "Statistics" button in FormAlbum, this feature displays statistics on the number of albums opened per month.
+* Download Images from User Albums: Allows users to download images from their photo albums to their computer.
+* Graphical Representation of User Activity: Displays the number of statuses and photos uploaded by the user each month in a graphical format.
  
 ## Development Context
 The Facebook app is built using C# and WinForms and was created as part of a design pattern course at the Academic College of Tel Aviv Yaffo.
